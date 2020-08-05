@@ -127,13 +127,19 @@ class AesReader {
                 cipher.update(read, 0, BLOCK_SIZE, decrypted);
                 hmac.update(read, 0, BLOCK_SIZE);
 
-                outputStream.write(decrypted, 0, read.length);
+                int readLength = read.length;
+                if (readPayload >= expectedPayloadSize) {
+                    // After read last block limit it size to bytes with data
+                    int last = inputStream.read(); // In this byte we have info about size of data in last block
+                    readLength = (last > 0 ? last : BLOCK_SIZE);
+                }
+
+                outputStream.write(decrypted, 0, readLength);
             } while (readPayload < expectedPayloadSize);
 
             outputStream.write(cipher.doFinal());
 
             // End of file...
-            int checksum = inputStream.read();
             byte[] hmac2 = inputStream.readNBytes(32);
 
             byte[] expectedHmac = hmac.doFinal();

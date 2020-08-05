@@ -6,7 +6,11 @@
 
     <groupId>pl.codeset</groupId>
     <artifactId>filetype-aes</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <build>
         <plugins>
@@ -17,6 +21,7 @@
                 <configuration>
                     <source>11</source>
                     <target>11</target>
+                    <release>11</release>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
