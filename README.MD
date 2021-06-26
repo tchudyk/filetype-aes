@@ -22,7 +22,7 @@ Add dependency:
 <dependency>
     <groupId>com.github.tchudyk</groupId>
     <artifactId>filetype-aes</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 

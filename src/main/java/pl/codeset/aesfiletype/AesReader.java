@@ -124,8 +124,10 @@ class AesReader {
                 bytesRead += read.length;
                 readPayload += read.length;
 
-                cipher.update(read, 0, BLOCK_SIZE, decrypted);
-                hmac.update(read, 0, BLOCK_SIZE);
+                if (read.length > 0) {
+                    cipher.update(read, 0, BLOCK_SIZE, decrypted);
+                    hmac.update(read, 0, BLOCK_SIZE);
+                }
 
                 int readLength = read.length;
                 if (readPayload >= expectedPayloadSize) {
@@ -134,7 +136,9 @@ class AesReader {
                     readLength = (last > 0 ? last : BLOCK_SIZE);
                 }
 
-                outputStream.write(decrypted, 0, readLength);
+                if (read.length > 0) {
+                    outputStream.write(decrypted, 0, readLength);
+                }
             } while (readPayload < expectedPayloadSize);
 
             outputStream.write(cipher.doFinal());

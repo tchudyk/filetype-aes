@@ -26,4 +26,21 @@ class AesFileTest {
 
         assertArrayEquals(inputBytes, bytes);
     }
+
+    @Test
+    void encryptDecryptEmptyTest(@TempDir Path tempDir) {
+
+        byte[] inputBytes = "".getBytes(StandardCharsets.UTF_8);
+        AesFileBuilder.fromBytes(inputBytes)
+                .usePassword("test")
+                .writeToFile(tempDir.resolve("encrypted.aes"))
+                .build();
+
+        AesFile loadedFile = AesFile.openFromFile(tempDir.resolve("encrypted.aes"))
+                .usePassword("test");
+
+        byte[] bytes = loadedFile.decryptToBytes();
+
+        assertArrayEquals(inputBytes, bytes);
+    }
 }
